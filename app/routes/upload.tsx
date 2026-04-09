@@ -5,7 +5,7 @@ import {usePuterStore} from "~/lib/puter";
 import {useNavigate} from "react-router";
 import {convertPdfToImage} from "~/lib/pdf2.img";
 import {generateUUID} from "~/lib/utils";
-import {prepareInstructions} from "../../Constants";
+import {prepareInstructions} from "../../constants";
 
 const upload = () => {
 
@@ -44,7 +44,7 @@ const upload = () => {
         }
            await kv.set(`resume:${uuid}`,JSON.stringify(data))
         setStatusText('Analyzing')
-        const feedback=await kv.feedback(
+        const feedback=await ai.feedback(
             uploadedFile.path,
             prepareInstructions({jobTitle,jobDescription})
         )
@@ -57,6 +57,7 @@ const upload = () => {
         data.feedback =JSON.parse(data.feedback)
         await kv.set(`resume:${uuid}`,JSON.stringify(data))
         setStatusText('analyzing complete ,redirecting...')
+        navigate(`/resume/${uuid}`)
 
     }
 
